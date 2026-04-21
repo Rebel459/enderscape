@@ -14,6 +14,7 @@ import net.bunten.enderscape.registry.EnderscapeEntities;
 import net.bunten.enderscape.registry.tag.EnderscapeItemTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -62,10 +63,14 @@ public class DrifterAI {
 
     public static final int HOME_RADIUS = 64;
 
-    public static Brain<?> makeBrain(Brain<Drifter> brain) {
-        initCoreActivity(brain);
-        initIdleActivity(brain);
+    public static ImmutableList<ActivityData<Drifter>> createActivities(Drifter drifter) {
+        return ImmutableList.of(
+                initCoreActivity(),
+                initIdleActivity()
+        );
+    }
 
+    public static Brain<Drifter> makeBrain(Brain<Drifter> brain) {
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.useDefaultActivity();
@@ -73,8 +78,8 @@ public class DrifterAI {
         return brain;
     }
 
-    private static void initCoreActivity(Brain<Drifter> brain) {
-        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+    private static ActivityData<Drifter> initCoreActivity() {
+        return ActivityData.create(Activity.CORE, 0, ImmutableList.of(
                 new CalmDownFromAttacker(24),
                 new CalmDownFromIntimidator(24),
 
@@ -94,8 +99,8 @@ public class DrifterAI {
         );
     }
 
-    private static void initIdleActivity(Brain<Drifter> brain) {
-        brain.addActivity(Activity.IDLE, ImmutableList.of(
+    private static ActivityData<Drifter> initIdleActivity() {
+        return ActivityData.create(Activity.IDLE, ImmutableList.of(
             Pair.of(0, new AnimalMakeLove(EnderscapeEntities.DRIFTER)),
             Pair.of(1, new FollowTemptation(mob -> 1.25F)),
             Pair.of(2, BabyFollowAdult.create(UniformInt.of(4, 16), 2)),

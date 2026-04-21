@@ -7,7 +7,7 @@ import net.bunten.enderscape.registry.EnderscapeDataComponents;
 import net.bunten.enderscape.registry.EnderscapeEntities;
 import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
 import net.bunten.enderscape.registry.tag.EnderscapeItemTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
@@ -16,6 +16,7 @@ import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
@@ -55,7 +57,7 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
 
     public static final List<ResourceKey<Level>> ALL_DIMENSION_TYPES = List.of(Level.OVERWORLD, Level.NETHER, Level.END);
 
-    public EnderscapeAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public EnderscapeAdvancementProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -70,9 +72,6 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
         ResourceKey<Advancement> endGatewayKey = ResourceKey.create(Registries.ADVANCEMENT, Identifier.withDefaultNamespace("end/enter_end_gateway"));
         ResourceKey<Advancement> findEndCityKey = ResourceKey.create(Registries.ADVANCEMENT, Identifier.withDefaultNamespace("end/find_end_city"));
         ResourceKey<Advancement> elytraKey = ResourceKey.create(Registries.ADVANCEMENT, Identifier.withDefaultNamespace("end/elytra"));
-
-        ItemStack glintMirror = MIRROR.getDefaultInstance();
-        glintMirror.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
 
         Advancement.Builder.advancement()
                 .parent(endGatewayKey.identifier())
@@ -222,7 +221,7 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
         AdvancementHolder glideOntoDrifter = Advancement.Builder.advancement()
                 .parent(driftLeggings)
                 .display(
-                        FIREWORK_ROCKET.getDefaultInstance(),
+                        FIREWORK_ROCKET,
                         Component.translatable("advancement.enderscape.glide_onto_drifter"),
                         Component.translatable("advancement.enderscape.glide_onto_drifter.description"),
                         null,
@@ -251,7 +250,7 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
         AdvancementHolder mirrorTeleport = Advancement.Builder.advancement()
                 .parent(obtainNebulite)
                 .display(
-                        glintMirror,
+                        MIRROR,
                         Component.translatable("advancement.enderscape.mirror_teleport"),
                         Component.translatable("advancement.enderscape.mirror_teleport.description"),
                         null,
@@ -271,7 +270,7 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
         AdvancementHolder longDistance = Advancement.Builder.advancement()
                 .parent(mirrorTeleport)
                 .display(
-                        glintMirror,
+                        MIRROR,
                         Component.translatable("advancement.enderscape.long_distance"),
                         Component.translatable("advancement.enderscape.long_distance.description"),
                         null,
@@ -294,7 +293,7 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
         Advancement.Builder.advancement()
                 .parent(longDistance)
                 .display(
-                        glintMirror,
+                        MIRROR,
                         Component.translatable("advancement.enderscape.transdimensional"),
                         Component.translatable("advancement.enderscape.transdimensional.description"),
                         null,
@@ -312,13 +311,10 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
                 )))
                 .save(consumer, Enderscape.id("transdimensional").toString());
 
-        ItemStack attractor = MAGNIA_ATTRACTOR.getDefaultInstance();
-        attractor.set(EnderscapeDataComponents.CURRENT_FUEL, 1);
-
         AdvancementHolder pullItemWithAttractor = Advancement.Builder.advancement()
                 .parent(obtainNebulite)
                 .display(
-                        attractor,
+                        MAGNIA_ATTRACTOR,
                         Component.translatable("advancement.enderscape.pull_item_with_attractor"),
                         Component.translatable("advancement.enderscape.pull_item_with_attractor.description"),
                         null,
@@ -332,13 +328,10 @@ public class EnderscapeAdvancementProvider extends FabricAdvancementProvider {
                 )))
                 .save(consumer, Enderscape.id("pull_item_with_attractor").toString());
 
-        ItemStack dagger = DAGGER.getDefaultInstance();
-        dagger.set(EnderscapeDataComponents.CURRENT_FUEL, 1);
-
         AdvancementHolder stunAttack = Advancement.Builder.advancement()
                 .parent(obtainNebulite)
                 .display(
-                        dagger,
+                        DAGGER,
                         Component.translatable("advancement.enderscape.stun_attack"),
                         Component.translatable("advancement.enderscape.stun_attack.description"),
                         null,

@@ -13,6 +13,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
@@ -105,7 +106,7 @@ public class LargeCelestialChanterelleGenerator {
         for (int i = 0; i <= length; i++) {
             if (level.isEmptyBlock(mutable)) {
                 if (i == length || !level.isEmptyBlock(mutable.below())) {
-                    replace(level, mutable, FLANGER_BERRIES.getState(random, mutable));
+                    if (level instanceof WorldGenLevel worldGenLevel) replace(level, mutable, FLANGER_BERRIES.getState(worldGenLevel, random, mutable));
                     break;
                 } else {
                     replace(level, mutable, EnderscapeBlocks.FLANGER_BERRY_VINE.defaultBlockState().setValue(StateProperties.ATTACHED, true).setValue(AbstractVineBlock.AGE, AbstractVineBlock.MAX_AGE));

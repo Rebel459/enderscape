@@ -1,13 +1,15 @@
 package net.bunten.enderscape.client.hud;
 
+import net.bunten.enderscape.Enderscape;
 import net.bunten.enderscape.EnderscapeConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
@@ -18,14 +20,14 @@ public abstract class HudElement {
     public HudElement(RenderPhase phase) {
         this.phase = phase;
         
-        if (phase == RenderPhase.AFTER_HUD) HudRenderCallback.EVENT.register(this::render);
+        if (phase == RenderPhase.AFTER_HUD) HudElementRegistry.attachElementAfter(VanillaHudElements.SUBTITLES, Enderscape.id("hud_element"), this::render);;
         ClientTickEvents.START_CLIENT_TICK.register(client -> tick());
     }
 
     protected final Minecraft client = Minecraft.getInstance();
     protected final EnderscapeConfig config = EnderscapeConfig.getInstance();
 
-    public abstract void render(GuiGraphics graphics, DeltaTracker delta);
+    public abstract void render(GuiGraphicsExtractor graphics, DeltaTracker delta);
 
     public void tick() {}
 

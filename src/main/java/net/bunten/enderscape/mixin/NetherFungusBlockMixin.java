@@ -1,6 +1,7 @@
 package net.bunten.enderscape.mixin;
 
 import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
+import net.minecraft.world.level.block.NetherFungusBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -8,13 +9,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.FungusBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-@Mixin(FungusBlock.class)
-public abstract class FungusBlockMixin extends BlockBehaviour {
-    public FungusBlockMixin(Properties settings) {
+@Mixin(NetherFungusBlock.class)
+public abstract class NetherFungusBlockMixin extends BlockBehaviour {
+    public NetherFungusBlockMixin(Properties settings) {
         super(settings);
     }
 

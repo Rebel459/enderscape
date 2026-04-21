@@ -1,6 +1,7 @@
 package net.bunten.enderscape.mixin;
 
 import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
+import net.minecraft.world.level.block.NetherRootsBlock;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -8,13 +9,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.RootsBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 
-@Mixin(RootsBlock.class)
-public abstract class RootsBlockMixin extends BlockBehaviour {
-    public RootsBlockMixin(Properties settings) {
+@Mixin(NetherRootsBlock.class)
+public abstract class NetherRootsBlockMixin extends BlockBehaviour {
+    public NetherRootsBlockMixin(Properties settings) {
         super(settings);
     }
 

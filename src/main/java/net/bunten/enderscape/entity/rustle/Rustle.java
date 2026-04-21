@@ -1,6 +1,5 @@
 package net.bunten.enderscape.entity.rustle;
 
-import com.mojang.serialization.Dynamic;
 import net.bunten.enderscape.entity.ai.EnderscapeMemory;
 import net.bunten.enderscape.registry.*;
 import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
@@ -138,14 +137,13 @@ public class Rustle extends Animal implements Bucketable, Shearable {
         return super.requiresCustomPersistence() || fromBucket();
     }
 
-    @Override
     protected Brain.Provider<Rustle> brainProvider() {
-        return Brain.provider(RustleAI.MEMORY_TYPES, RustleAI.SENSOR_TYPES);
+        return Brain.provider(RustleAI.MEMORY_TYPES, RustleAI.SENSOR_TYPES, RustleAI::createActivities);
     }
 
     @Override
-    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-        return RustleAI.makeBrain(brainProvider().makeBrain(dynamic));
+    protected Brain<Rustle> makeBrain(Brain.Packed dynamic) {
+        return RustleAI.makeBrain(brainProvider().makeBrain(this, dynamic));
     }
 
     @Override

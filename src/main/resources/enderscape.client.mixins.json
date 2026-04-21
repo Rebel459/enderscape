@@ -1,7 +1,7 @@
 {
     "required": true,
     "package": "net.bunten.enderscape.client.mixin",
-    "compatibilityLevel": "JAVA_21",
+    "compatibilityLevel": "JAVA_25",
     "client": [
         "AbstractClientPlayerMixin",
         "AtmosphericFogEnvironmentMixin",
@@ -14,7 +14,7 @@
         "FogRendererMixin",
         "GameRendererMixin",
         "LevelEventHandlerMixin",
-        "LightTextureMixin",
+        "LightmapMixin",
         "LocalPlayerMixin",
         "MinecraftMixin",
         "MusicManagerAccess",

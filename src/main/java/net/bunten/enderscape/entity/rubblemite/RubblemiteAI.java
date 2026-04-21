@@ -10,6 +10,7 @@ import net.bunten.enderscape.entity.ai.EnderscapeSensors;
 import net.bunten.enderscape.entity.ai.behavior.*;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
@@ -67,11 +68,15 @@ public class RubblemiteAI {
         return false;
     }
 
-    public static Brain<?> makeBrain(Brain<Rubblemite> brain) {
-        initCoreActivity(brain);
-        initIdleActivity(brain);
-        initFightActivity(brain);
+    public static ImmutableList<ActivityData<Rubblemite>> createActivities(Rubblemite mob) {
+        return ImmutableList.of(
+                initCoreActivity(),
+                initIdleActivity(),
+                initFightActivity()
+        );
+    }
 
+    public static Brain<Rubblemite> makeBrain(Brain<Rubblemite> brain) {
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.useDefaultActivity();
@@ -83,11 +88,11 @@ public class RubblemiteAI {
         mob.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.FIGHT, Activity.IDLE));
     }
 
-    private static void initCoreActivity(Brain<Rubblemite> brain) {
-        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+    private static ActivityData<Rubblemite> initCoreActivity() {
+        return ActivityData.create(Activity.CORE, 0, ImmutableList.of(
                 new MoveToTargetSink(),
                 new CountDownCooldownTicks(EnderscapeMemory.RUBBLEMITE_PREPARING_DASH_TIME),
-                new ConditionalLookAtTargetSink<>(rubblemite -> rubblemite.isDashing() || rubblemite.isInsideShell(), 45, 90),
+                new ConditionalLookAtTargetSink<Rubblemite>(rubblemite -> rubblemite.isDashing() || rubblemite.isInsideShell(), 45, 90),
                 new RubblemiteShellCooldown(),
                 new RubblemiteManageState(),
                 StopBeingAngryIfTargetDead.create()
@@ -95,8 +100,8 @@ public class RubblemiteAI {
         );
     }
 
-    private static void initIdleActivity(Brain<Rubblemite> brain) {
-        brain.addActivity(Activity.IDLE, ImmutableList.of(
+    private static ActivityData<Rubblemite> initIdleActivity() {
+        return ActivityData.create(Activity.IDLE, ImmutableList.of(
             Pair.of(1, StartAttacking.create(EnderscapeAI::getAttackTarget)),
             Pair.of(4, SetEntityLookTargetSometimes.create(EntityType.PLAYER, 6.0f, UniformInt.of(30, 60))),
             Pair.of(8, new RunOne<>(
@@ -111,8 +116,8 @@ public class RubblemiteAI {
         );
     }
 
-    private static void initFightActivity(Brain<Rubblemite> brain) {
-        brain.addActivityAndRemoveMemoryWhenStopped(Activity.FIGHT, 10, ImmutableList.of(
+    private static ActivityData<Rubblemite> initFightActivity() {
+        return ActivityData.create(Activity.FIGHT, 10, ImmutableList.of(
             new RubblemiteDashAfterPreparing(),
             new RubblemitePrepareDashDuringCombat(),
             SetWalkTargetFromAttackTargetIfTargetOutOfReach.create(1),

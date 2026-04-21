@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -57,7 +57,7 @@ gradle.taskGraph.whenReady { graph ->
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/enderscape.accesswidener")
+	accessWidenerPath = file("src/main/resources/enderscape.classtweaker")
 
 	runs {
 		client {
@@ -75,15 +75,13 @@ fabricApi {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings();
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
-	modImplementation "com.github.ramixin:mixson-fabric:${project.mixson_version}"
-	modImplementation "maven.modrinth:lithostitched:${project.lithostitched_version}"
-	include "com.github.ramixin:mixson-fabric:${project.mixson_version}"
+	implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+	implementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+	implementation "maven.modrinth:trim-patcher:${project.trimpatcher_version}"
+	implementation "maven.modrinth:lithostitched:${project.lithostitched_version}"
 }
 
 processResources {
@@ -95,14 +93,14 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

@@ -3,6 +3,7 @@ package net.bunten.enderscape.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ChorusPlantFeature;
@@ -18,8 +19,8 @@ public abstract class ChorusPlantFeatureMixin {
         return instance.is(EnderscapeBlockTags.CHORUS_VEGETATION_PLANTABLE_ON) || original.call(instance, block);
     }
 
-    @WrapOperation(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z", ordinal = 0))
-    private boolean getStateWithConnections(BlockState instance, Block block, Operation<Boolean> original) {
-        return Enderscape$placeable(instance, block, original);
+    @WrapOperation(method = "place", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/tags/TagKey;)Z", ordinal = 0))
+    private boolean getStateWithConnections(BlockState instance, TagKey tagKey, Operation<Boolean> original) {
+        return original.call(instance, tagKey) || original.call(instance, EnderscapeBlockTags.CHORUS_VEGETATION_PLANTABLE_ON);
     }
 }

@@ -33,7 +33,7 @@ public abstract class ThrownEnderpearlMixin extends ThrowableItemProjectile {
     @Inject(at = @At("TAIL"), method = "playSound")
     public void Enderscape$playSound(CallbackInfo info) {
         if (EnderscapeConfig.getInstance().enderPearlBreakParticles && level() instanceof ServerLevel server) {
-            server.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, getItem()), getX(), getY(), getZ(), 12, 0, 0, 0, 0.1);
+            server.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, getItem().getItem()), getX(), getY(), getZ(), 12, 0, 0, 0, 0.1);
         }
     }
 

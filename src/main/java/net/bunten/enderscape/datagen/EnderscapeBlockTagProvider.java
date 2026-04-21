@@ -1,7 +1,7 @@
 package net.bunten.enderscape.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
@@ -16,9 +16,9 @@ import static net.bunten.enderscape.registry.tag.EnderscapeBlockTags.*;
 import static net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags.*;
 import static net.minecraft.world.level.block.Blocks.*;
 
-public class EnderscapeBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+public class EnderscapeBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 
-    public EnderscapeBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public EnderscapeBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
@@ -282,7 +282,7 @@ public class EnderscapeBlockTagProvider extends FabricTagProvider.BlockTagProvid
 
         valueLookupBuilder(BlockTags.LEAVES).add(VEILED_LEAVES);
         valueLookupBuilder(BlockTags.LOGS_THAT_BURN).forceAddTag(CELESTIAL_STEMS).forceAddTag(MURUBLIGHT_STEMS).forceAddTag(VEILED_LOGS);
-        valueLookupBuilder(BlockTags.MUSHROOM_GROW_BLOCK).forceAddTag(OVERGROWTH_BLOCKS);
+        valueLookupBuilder(BlockTags.OVERRIDES_MUSHROOM_LIGHT_REQUIREMENT).forceAddTag(OVERGROWTH_BLOCKS);
         valueLookupBuilder(BlockTags.NEEDS_DIAMOND_TOOL).add(NEBULITE_ORE, MIRESTONE_NEBULITE_ORE, NEBULITE_BLOCK);
         valueLookupBuilder(BlockTags.NEEDS_STONE_TOOL).forceAddTag(SHADOLINE_BLOCKS).add(SHADOLINE_ORE, MIRESTONE_SHADOLINE_ORE);
         valueLookupBuilder(BlockTags.PLANKS).add(VEILED_PLANKS, CELESTIAL_PLANKS, MURUBLIGHT_PLANKS);

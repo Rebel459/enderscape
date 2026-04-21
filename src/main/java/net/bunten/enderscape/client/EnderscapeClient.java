@@ -14,7 +14,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.ClientTooltipComponentCallback;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.Music;
@@ -58,7 +58,6 @@ public class EnderscapeClient implements ClientModInitializer {
                 EnderscapeParticleProviders.class,
                 EnderscapeModelLayers.class,
                 EnderscapeEntityRenderers.class,
-                EnderscapeBlockRenderLayerMap.class,
                 EnderscapeBlockColorProviders.class,
                 EnderscapeHudElements.class
         );
@@ -68,7 +67,7 @@ public class EnderscapeClient implements ClientModInitializer {
 
         BlockEntityRenderers.register(EnderscapeBlockEntities.MAGNIA_SPROUT, MagniaSproutRenderer::new);
 
-        TooltipComponentCallback.EVENT.register((component) -> component instanceof FueledToolComponent tool ? new FueledToolTooltip(tool.stack()) : null);
+        ClientTooltipComponentCallback.EVENT.register((component) -> component instanceof FueledToolComponent tool ? new FueledToolTooltip(tool.stack()) : null);
     }
 
     private void resetTemporaryData() {

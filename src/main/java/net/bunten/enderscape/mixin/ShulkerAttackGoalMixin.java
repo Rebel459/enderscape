@@ -17,16 +17,14 @@ import java.util.List;
 @Mixin(targets = "net.minecraft.world.entity.monster.Shulker$ShulkerAttackGoal")
 public abstract class ShulkerAttackGoalMixin extends Goal {
 
-    @Shadow private int attackTime;
-
-    @Final
     @Shadow
-    Shulker field_7348;
+    private int attackTime;
 
     @Inject(method = "tick", at = @At(value = "HEAD"), cancellable = true)
     private void tick(CallbackInfo info) {
-        if (EnderscapeConfig.getInstance().shulkerBulletEnforceCountLimit > 0 && attackTime % 20 == 0) {
-            List<Entity> entities = field_7348.level().getEntities(field_7348, field_7348.getBoundingBox().inflate(50), (entity) -> entity instanceof ShulkerBullet bullet && bullet.getOwner() == field_7348);
+        Shulker shulker = Shulker.class.cast(this);
+        if (EnderscapeConfig.getInstance().shulkerBulletEnforceCountLimit > 0 && this.attackTime % 20 == 0) {
+            List<Entity> entities = shulker.level().getEntities(shulker, shulker.getBoundingBox().inflate(50), (entity) -> entity instanceof ShulkerBullet bullet && bullet.getOwner() == shulker);
             if (entities.size() >= EnderscapeConfig.getInstance().shulkerBulletEnforceCountLimit) info.cancel();
         }
     }

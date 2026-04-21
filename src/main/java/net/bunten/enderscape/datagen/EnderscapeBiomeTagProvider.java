@@ -1,7 +1,7 @@
 package net.bunten.enderscape.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.tags.TagAppender;
@@ -18,9 +18,9 @@ import static net.minecraft.tags.BiomeTags.HAS_END_CITY;
 import static net.minecraft.tags.BiomeTags.IS_END;
 import static net.minecraft.world.level.biome.Biomes.*;
 
-public class EnderscapeBiomeTagProvider extends FabricTagProvider<Biome> {
+public class EnderscapeBiomeTagProvider extends FabricTagsProvider<Biome> {
 
-    public EnderscapeBiomeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> future) {
+    public EnderscapeBiomeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> future) {
         super(output, Registries.BIOME, future);
     }
 

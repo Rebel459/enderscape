@@ -1,15 +1,16 @@
 #version 330
 
 layout(std140) uniform LightmapInfo {
-    float AmbientLightFactor;
     float SkyFactor;
     float BlockFactor;
     float NightVisionFactor;
     float DarknessScale;
-    float DarkenWorldFactor;
+    float BossOverlayWorldDarkeningFactor;
     float BrightnessFactor;
+    vec3 BlockLightTint;
     vec3 SkyLightColor;
     vec3 AmbientColor;
+    vec3 NightVisionColor;
 } lightmapInfo;
 
 in vec2 texCoord;
@@ -46,19 +47,18 @@ void main() {
     color = mix(color, ambient, 0.07);
     color = mix(color, vec3(0.75), 0.04);
 
-    if (lightmapInfo.NightVisionFactor > 0.0) {
-        // scale up uniformly until 1.0 is hit by one of the colors
-        float max_component = max(color.r, max(color.g, color.b));
-        if (max_component < 1.0) {
-            vec3 bright_color = color / max_component;
-            color = mix(color, bright_color, lightmapInfo.NightVisionFactor);
-        }
-    }
+    vec3 nightVisionColor = lightmapInfo.NightVisionColor * lightmapInfo.NightVisionFactor;
+    color = max(color, nightVisionColor);
+
+    color = mix(color, color * vec3(0.7, 0.6, 0.6), lightmapInfo.BossOverlayWorldDarkeningFactor);
+    color = color - vec3(lightmapInfo.DarknessScale);
 
     color = clamp(color, 0.0, 1.0);
 
-    vec3 notGamma = notGamma(color);
-    color = mix(color, notGamma, lightmapInfo.BrightnessFactor * 0.6);
+    if (max(max(color.r, color.g), color.b) > 0.0) {
+        vec3 notGamma = notGamma(color);
+        color = mix(color, notGamma, lightmapInfo.BrightnessFactor * 0.6);
+    }
     color = mix(color, vec3(0.75), 0.04);
 
     fragColor = vec4(color, 1.0);

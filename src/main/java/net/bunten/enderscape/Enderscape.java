@@ -76,7 +76,6 @@ public class Enderscape implements ModInitializer {
                 EnderscapeEnchantmentEffectComponents.class,
                 EnderscapePaintingVariants.class,
                 EnderscapeMobEffects.class,
-                EnderscapeAssetModifications.class,
                 EnderscapeEntities.class,
                 EnderscapeEntityDataSerializers.class,
                 EnderscapeSubEntityPredicates.class,

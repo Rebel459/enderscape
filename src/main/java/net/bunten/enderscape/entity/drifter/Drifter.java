@@ -1,6 +1,5 @@
 package net.bunten.enderscape.entity.drifter;
 
-import com.mojang.serialization.Dynamic;
 import net.bunten.enderscape.entity.ai.behavior.DrifterStartOrStopLeakingJelly;
 import net.bunten.enderscape.registry.*;
 import net.bunten.enderscape.registry.tag.EnderscapeItemTags;
@@ -255,14 +254,13 @@ public class Drifter extends Animal {
         return true;
     }
 
-    @Override
     protected Brain.Provider<Drifter> brainProvider() {
-        return Brain.provider(DrifterAI.MEMORY_TYPES, DrifterAI.SENSOR_TYPES);
+        return Brain.provider(DrifterAI.MEMORY_TYPES, DrifterAI.SENSOR_TYPES, DrifterAI::createActivities);
     }
 
     @Override
-    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-        return DrifterAI.makeBrain(brainProvider().makeBrain(dynamic));
+    protected Brain<Drifter> makeBrain(Brain.Packed dynamic) {
+        return DrifterAI.makeBrain(brainProvider().makeBrain(this, dynamic));
     }
 
     @Override

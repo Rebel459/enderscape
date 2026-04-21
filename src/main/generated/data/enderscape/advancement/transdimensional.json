@@ -17,10 +17,6 @@
     },
     "frame": "challenge",
     "icon": {
-      "components": {
-        "minecraft:enchantment_glint_override": true
-      },
-      "count": 1,
       "id": "enderscape:mirror"
     },
     "title": {

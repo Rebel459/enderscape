@@ -7,7 +7,6 @@ import net.bunten.enderscape.registry.tag.EnderscapeBlockTags;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.WeightedList;
 import net.minecraft.util.valueproviders.*;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockColumnConf
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
@@ -138,9 +136,7 @@ public class EnderscapeConfiguredFeatures {
                 )
         ));
 
-        register(context, WISP_FLOWER_PATCH, Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(
-                Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(EnderscapeBlocks.WISP_FLOWER)), List.of(), 16)
-        );
+        register(context, WISP_FLOWER_PATCH, Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(simple(EnderscapeBlocks.WISP_FLOWER)));
 
         register(context, VEILED_TREE, EnderscapeFeatures.VEILED_TREE, new VeiledTreeConfig(
                 UniformInt.of(1, 2),

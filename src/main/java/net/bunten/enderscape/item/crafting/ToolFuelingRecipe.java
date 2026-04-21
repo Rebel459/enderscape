@@ -11,8 +11,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 public class ToolFuelingRecipe extends CustomRecipe {
-    public ToolFuelingRecipe(CraftingBookCategory category) {
-        super(category);
+    public ToolFuelingRecipe() {
+        super();
     }
 
     public boolean matches(CraftingInput input, Level level) {
@@ -56,7 +56,7 @@ public class ToolFuelingRecipe extends CustomRecipe {
         }
     }
 
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider provider) {
+    public ItemStack assemble(CraftingInput input) {
         int toolIndex = -1;
         int fuel = 0;
 

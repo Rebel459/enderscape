@@ -25,8 +25,11 @@ import java.util.List;
 @Mixin(targets = "net/minecraft/core/dispenser/DispenseItemBehavior$11")
 public abstract class DispenseItemBehaviorMixin extends OptionalDispenseItemBehavior {
 
-    @Shadow
-    protected abstract ItemStack takeLiquid(BlockSource source, ItemStack empty, ItemStack filled);
+    @Unique
+    private ItemStack takeLiquid(final BlockSource source, final ItemStack dispensed, final ItemStack filledItemStack) {
+        source.level().gameEvent(null, GameEvent.FLUID_PICKUP, source.pos());
+        return this.consumeWithRemainder(source, dispensed, filledItemStack);
+    }
 
     @Unique
     private boolean tryExtractDriftJelly(Level level, BlockPos pos) {

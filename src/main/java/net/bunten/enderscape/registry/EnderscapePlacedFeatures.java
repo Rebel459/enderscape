@@ -256,7 +256,7 @@ public class EnderscapePlacedFeatures {
 
         PlacementUtils.register(context, WISP_FLOWER_PATCHES, get(context, EnderscapeConfiguredFeatures.WISP_FLOWER_PATCH),
                 FULL_RANGE,
-                CountOnEveryLayerPlacement.of(2),
+                CountOnEveryLayerPlacement.of(32),
                 EnvironmentScanPlacement.scanningFor(Direction.DOWN, matchesBlocks(VEILED_END_STONE), ONLY_IN_AIR_PREDICATE, 12),
                 RandomOffsetPlacement.vertical(ConstantInt.of(1)),
                 BiomeFilter.biome()

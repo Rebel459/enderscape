@@ -1,6 +1,5 @@
 package net.bunten.enderscape.entity.rubblemite;
 
-import com.mojang.serialization.Dynamic;
 import io.netty.buffer.ByteBuf;
 import net.bunten.enderscape.entity.ai.EnderscapeMemory;
 import net.bunten.enderscape.registry.*;
@@ -102,14 +101,13 @@ public class Rubblemite extends Monster {
                 .add(Attributes.SAFE_FALL_DISTANCE, 6);
     }
 
-    @Override
     protected Brain.Provider<Rubblemite> brainProvider() {
-        return Brain.provider(RubblemiteAI.MEMORY_TYPES, RubblemiteAI.SENSOR_TYPES);
+        return Brain.provider(RubblemiteAI.MEMORY_TYPES, RubblemiteAI.SENSOR_TYPES, RubblemiteAI::createActivities);
     }
 
     @Override
-    protected Brain<?> makeBrain(Dynamic<?> dynamic) {
-        return RubblemiteAI.makeBrain(brainProvider().makeBrain(dynamic));
+    protected Brain<Rubblemite> makeBrain(Brain.Packed dynamic) {
+        return RubblemiteAI.makeBrain(brainProvider().makeBrain(this, dynamic));
     }
 
     @Override

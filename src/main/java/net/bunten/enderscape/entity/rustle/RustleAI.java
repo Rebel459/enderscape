@@ -16,6 +16,7 @@ import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -72,11 +73,15 @@ public class RustleAI {
 
     public static final BiPredicate<ServerLevel, BlockPos> HAS_STURDY_SURFACE = (level, pos) -> level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP);
 
-    public static Brain<?> makeBrain(Brain<Rustle> brain) {
-        initCoreActivity(brain);
-        initIdleActivity(brain);
-        initRestActivity(brain);
+    public static ImmutableList<ActivityData<Rustle>> createActivities(Rustle mob) {
+        return ImmutableList.of(
+                initCoreActivity(),
+                initIdleActivity(),
+                initRestActivity()
+        );
+    }
 
+    public static Brain<Rustle> makeBrain(Brain<Rustle> brain) {
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.useDefaultActivity();
@@ -88,8 +93,8 @@ public class RustleAI {
         mob.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.REST, Activity.IDLE));
     }
 
-    private static void initCoreActivity(Brain<Rustle> brain) {
-        brain.addActivity(Activity.CORE, 0, ImmutableList.of(
+    private static ActivityData<Rustle> initCoreActivity() {
+        return ActivityData.create(Activity.CORE, 0, ImmutableList.of(
                 new CalmDownFromAttacker(16),
 
                 new CountDownCooldownTicks(EnderscapeMemory.RUSTLE_HAIR_REGROWTH_COOLDOWN),
@@ -107,8 +112,8 @@ public class RustleAI {
         );
     }
 
-    private static void initIdleActivity(Brain<Rustle> brain) {
-        brain.addActivityWithConditions(
+    private static ActivityData<Rustle> initIdleActivity() {
+        return ActivityData.create(
                 Activity.IDLE,
                 ImmutableList.of(
                 Pair.of(0, new AnimalMakeLove(EnderscapeEntities.RUSTLE, 1.25F, 1)),
@@ -128,8 +133,8 @@ public class RustleAI {
         );
     }
 
-    private static void initRestActivity(Brain<Rustle> brain) {
-        brain.addActivityWithConditions(Activity.REST, ImmutableList.of(
+    private static ActivityData<Rustle> initRestActivity() {
+        return ActivityData.create(Activity.REST, ImmutableList.of(
                 Pair.of(8, new DoNothing(30, 60))),
                 Set.of(
                         Pair.of(EnderscapeMemory.RUSTLE_SLEEPING_ON_COOLDOWN, MemoryStatus.VALUE_ABSENT),
