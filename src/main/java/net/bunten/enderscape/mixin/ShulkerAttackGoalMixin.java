@@ -20,9 +20,12 @@ public abstract class ShulkerAttackGoalMixin extends Goal {
     @Shadow
     private int attackTime;
 
+    @Shadow @Final Shulker this$0;
+
     @Inject(method = "tick", at = @At(value = "HEAD"), cancellable = true)
     private void tick(CallbackInfo info) {
-        Shulker shulker = Shulker.class.cast(this);
+        Shulker shulker = this.this$0;
+
         if (EnderscapeConfig.getInstance().shulkerBulletEnforceCountLimit > 0 && this.attackTime % 20 == 0) {
             List<Entity> entities = shulker.level().getEntities(shulker, shulker.getBoundingBox().inflate(50), (entity) -> entity instanceof ShulkerBullet bullet && bullet.getOwner() == shulker);
             if (entities.size() >= EnderscapeConfig.getInstance().shulkerBulletEnforceCountLimit) info.cancel();
