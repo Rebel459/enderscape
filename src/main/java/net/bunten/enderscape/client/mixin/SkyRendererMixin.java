@@ -59,7 +59,7 @@ public abstract class SkyRendererMixin {
     }
 
     @Shadow
-    private static GpuBuffer buildCelestialQuad(String string, TextureAtlasSprite textureAtlasSprite) {
+    private static GpuBuffer buildCelestialQuad(String name, TextureAtlasSprite sprite) {
         return null;
     }
 }
