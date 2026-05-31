@@ -39,6 +39,6 @@ public class BlinklightColorProvider implements BlockTintSource {
 
     @Override
     public int color(BlockState state) {
-        return 0xFF000000;
+        return 0xFFFFFFFF;
     }
 }
